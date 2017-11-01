@@ -26,12 +26,16 @@ def create_file_output(books, name):
                 str1 += str(i) + '\n'
             file_out.write('Возникла ошибка чтения данных:\n' + str1)
     else:
-        str1 = str1 + 'Автор'.ljust(autor_len, ' ') + '\t' + 'Название'.ljust(name_len, ' ') + \
-            '\t' + 'Год'.ljust(year_len, ' ') + '\t' + 'Цена'.ljust(price_len, ' ') + '\n'
+        str1 = '{}\t{}\t{}\t{}\n'.format('Автор'.ljust(autor_len, ' '), \
+                                         'Название'.ljust(name_len, ' '), \
+                                         'Год'.ljust(year_len, ' '), \
+                                         'Цена'.ljust(price_len, ' '))
         with open(name + '.txt','w') as file_out:
             for book in books:
-                str1 += book[0].ljust(autor_len, ' ') + '\t' + book[1].ljust(name_len, ' ') + \
-                    '\t' + book[2].ljust(year_len, ' ') + '\t' + book[3].ljust(price_len, ' ') + '\n'
+                str1 += '{}\t{}\t{}\t{}\n'.format(book[0].ljust(autor_len, ' '), \
+                                                  book[1].ljust(name_len, ' '), \
+                                                  book[2].ljust(year_len, ' '), \
+                                                  book[3].ljust(price_len, ' '))
             file_out.write(str1)
 
 
@@ -42,7 +46,8 @@ except FileNotFoundError:
     exit()
 else:
     #  создаём список списков с информацией о каждой книге
-    books = list(book.split(';') for book in list(file.read().split('\n')))
+    books = list(file.read().split('\n'))
+    books = list(book.split(';') for book in books)
     #  убираем пустой элемент в конце списка (появляется из-за eof)
     if books[len(books)-1][len(books[len(books)-1])-1] == '':
         books.pop()
